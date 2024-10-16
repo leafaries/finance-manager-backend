@@ -1,1 +1,1 @@
-# finance-manager-backend
+# Finance Manager - Backend
