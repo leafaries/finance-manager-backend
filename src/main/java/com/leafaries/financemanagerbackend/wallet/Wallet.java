@@ -36,10 +36,11 @@ public class Wallet {
     public Wallet() { }
 
     // Parameterized constructor
-    public Wallet(String name, BigDecimal balance, String currency) {
+    public Wallet(String name, BigDecimal balance, String currency, User user) {
         this.name = name;
         this.balance = balance;
         this.currency = currency;
+        this.user = user;
     }
 
     // Getters and setters
@@ -91,5 +92,13 @@ public class Wallet {
     public void removeTransaction(Transaction transaction) {
         transactions.remove(transaction);
         transaction.setWallet(null);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

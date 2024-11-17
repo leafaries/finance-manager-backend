@@ -21,19 +21,22 @@ public class WalletController {
     @PostMapping
     public ResponseEntity<WalletDto> createWallet(@RequestBody CreateWalletDto createWalletDto) {
         WalletDto createdWallet = walletService.createWallet(createWalletDto);
-        return new ResponseEntity<>(createdWallet, HttpStatus.CREATED);
+//        return new ResponseEntity<>(createdWallet, HttpStatus.CREATED);
+        return ResponseEntity.ok(createdWallet);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<WalletDto> getWalletById(@PathVariable Long id) {
         WalletDto wallet = walletService.getWalletById(id);
-        return wallet != null ? new ResponseEntity<>(wallet, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        return wallet != null ? new ResponseEntity<>(wallet, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(wallet);
     }
 
     @GetMapping
     public ResponseEntity<List<WalletDto>> getAllWallets() {
         List<WalletDto> wallets = walletService.getAllWallets();
-        return new ResponseEntity<>(wallets, HttpStatus.OK);
+//        return new ResponseEntity<>(wallets, HttpStatus.OK);
+        return ResponseEntity.ok(wallets);
     }
 
     @PutMapping("/{id}")
@@ -50,22 +53,3 @@ public class WalletController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
-
-//@RestController("/api/wallets")
-//@RequestMapping("/api/wallets")
-//public class WalletController {
-//
-//    private final WalletService walletService;
-//
-//    @PostMapping
-//    public ResponseEntity<Wallet> createWallet(@RequestBody WalletDto walletDto) {
-//        return ResponseEntity.ok(walletService.createWallet(walletDto));
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Wallet> getWallet(@PathVariable Long id) {
-//        return ResponseEntity.ok(walletService.getWallet(id));
-//    }
-//
-//    // Other endpoints for updating and deleting wallets
-//}
