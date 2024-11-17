@@ -2,15 +2,15 @@ package com.leafaries.financemanagerbackend.user;
 
 public class UserLoginDto {
 
-    private String identifier;
+    private String username;
     private String password;
 
-    public String getIdentifier() {
-        return identifier;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

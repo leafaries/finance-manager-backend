@@ -19,8 +19,8 @@ public class WalletController {
     }
 
     @PostMapping
-    public ResponseEntity<WalletDto> createWallet(@RequestBody WalletDto walletDto) {
-        WalletDto createdWallet = walletService.createWallet(walletDto);
+    public ResponseEntity<WalletDto> createWallet(@RequestBody CreateWalletDto createWalletDto) {
+        WalletDto createdWallet = walletService.createWallet(createWalletDto);
         return new ResponseEntity<>(createdWallet, HttpStatus.CREATED);
     }
 
@@ -37,8 +37,8 @@ public class WalletController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<WalletDto> updateWallet(@PathVariable Long id, @RequestBody WalletDto walletDto) {
-        WalletDto updatedWallet = walletService.updateWallet(id, walletDto);
+    public ResponseEntity<WalletDto> updateWallet(@PathVariable Long id, @RequestBody CreateWalletDto createWalletDto) {
+        WalletDto updatedWallet = walletService.updateWallet(id, createWalletDto);
         return updatedWallet != null ? new ResponseEntity<>(updatedWallet, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

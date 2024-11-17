@@ -33,11 +33,6 @@ public class UserService {
                 .map(user -> modelMapper.map(user, UserDto.class));
     }
 
-    public Optional<UserDto> getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(user -> modelMapper.map(user, UserDto.class));
-    }
-
     public UserDto getUserById(Long id) {
         return userRepository.findById(id)
                 .map(user -> modelMapper.map(user, UserDto.class))

@@ -9,10 +9,8 @@ public class WalletDto {
     private BigDecimal balance;
     private String currency;
 
-    // Default constructor
     public WalletDto() {}
 
-    // Parameterized constructor
     public WalletDto(Long id, String name, BigDecimal balance, String currency) {
         this.id = id;
         this.name = name;
@@ -20,7 +18,6 @@ public class WalletDto {
         this.currency = currency;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
