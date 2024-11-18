@@ -1,5 +1,7 @@
 package com.leafaries.financemanagerbackend.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     private final UserService userService;
 
     @Autowired
@@ -15,21 +19,19 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
-//        UserDto createdUser = userService.registerUser(userDto);
-//        return ResponseEntity.ok(createdUser);
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        logger.debug("Received request to get user with id: {}", id);
         UserDto userDto = userService.getUserById(id);
-        return userDto != null ? ResponseEntity.ok(userDto) : ResponseEntity.notFound().build();
+        logger.debug("Fetched user: {}", userDto);
+        return ResponseEntity.ok(userDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        logger.debug("Received request to delete user with id: {}", id);
         userService.deleteUser(id);
+        logger.debug("User deleted with id: {}", id);
         return ResponseEntity.noContent().build();
     }
 }

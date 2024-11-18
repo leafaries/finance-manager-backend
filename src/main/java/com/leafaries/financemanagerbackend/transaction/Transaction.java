@@ -104,25 +104,3 @@ public class Transaction {
                 '}';
     }
 }
-
-//@Entity
-//public class Transaction {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    private BigDecimal amount;
-//    private LocalDate date;
-//    private String notes;
-//
-//    @Enumerated(EnumType.STRING)
-//    private TransactionType type; // Income or Expense
-//
-//    @ManyToOne
-//    private Wallet wallet;
-//
-//    @ManyToOne
-//    private Category category;
-//
-//    // Constructors, getters and setters
-//}
