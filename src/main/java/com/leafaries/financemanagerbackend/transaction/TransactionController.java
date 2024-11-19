@@ -2,13 +2,16 @@ package com.leafaries.financemanagerbackend.transaction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing financial transactions.
+ * Provides endpoints for creating, retrieving, updating, and deleting transactions.
+ */
 @RestController
 @RequestMapping("/api/transactions")
 public class TransactionController {
@@ -17,11 +20,21 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @Autowired
+    /**
+     * Constructs a new {@code TransactionController} with the specified {@code TransactionService}.
+     *
+     * @param transactionService the service for managing transactions
+     */
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Creates a new transaction.
+     *
+     * @param transactionCreateDto the data transfer object containing transaction details for creation
+     * @return a {@code ResponseEntity} containing the created transaction
+     */
     @PostMapping
     public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionCreateDto transactionCreateDto) {
         logger.debug("Received request to create transaction with data: {}", transactionCreateDto);
@@ -30,15 +43,11 @@ public class TransactionController {
         return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
-        logger.debug("Received request to fetch transaction with id: {}", id);
-        TransactionDto transactionDto = transactionService.getTransactionById(id);
-        logger.debug("Fetched transaction: {}", id);
-        return transactionDto != null ? ResponseEntity.ok(transactionDto) : ResponseEntity.notFound().build();
-    }
-
-    // Currently the TransactionDto in a list has an id = wallet_id, instead of ther real one fix it
+    /**
+     * Retrieves all transactions.
+     *
+     * @return a {@code ResponseEntity} containing a list of all transactions
+     */
     @GetMapping
     public ResponseEntity<List<TransactionDto>> getAllTransactions() {
         logger.debug("Fetching all transactions via controller");
@@ -47,6 +56,27 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
+    /**
+     * Retrieves a transaction by its ID.
+     *
+     * @param id the ID of the transaction to retrieve
+     * @return a {@code ResponseEntity} containing the retrieved transaction
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
+        logger.debug("Received request to fetch transaction with id: {}", id);
+        TransactionDto transactionDto = transactionService.getTransactionById(id);
+        logger.debug("Fetched transaction: {}", id);
+        return transactionDto != null ? ResponseEntity.ok(transactionDto) : ResponseEntity.notFound().build();
+    }
+
+    /**
+     * Updates an existing transaction.
+     *
+     * @param id the ID of the transaction to update
+     * @param transactionCreateDto the data transfer object containing the new transaction details
+     * @return a {@code ResponseEntity} containing the updated transaction
+     */
     @PutMapping("/{id}")
     public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id,
                                                             @RequestBody TransactionCreateDto transactionCreateDto) {
@@ -56,6 +86,12 @@ public class TransactionController {
         return ResponseEntity.ok(updatedTransaction);
     }
 
+    /**
+     * Deletes a transaction by its ID.
+     *
+     * @param id the ID of the transaction to delete
+     * @return a {@code ResponseEntity} with no content
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
         logger.debug("Received request to delete transaction with id: {}", id);

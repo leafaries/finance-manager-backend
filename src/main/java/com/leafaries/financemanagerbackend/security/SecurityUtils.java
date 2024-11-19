@@ -7,15 +7,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utility class for security-related operations.
+ * Provides methods for authorization and authentication checks.
+ */
 @Component
 public class SecurityUtils {
 
     private final UserRepository userRepository;
 
+    /**
+     * Constructs a new SecurityUtils with the specified UserRepository.
+     *
+     * @param userRepository the repository for user persistance
+     */
     public SecurityUtils(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return the currently authenticated user
+     */
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext()
                 .getAuthentication()

@@ -1,14 +1,18 @@
 package com.leafaries.financemanagerbackend.user;
 
+import com.leafaries.financemanagerbackend.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Service class for managing users.
+ * Provides methods for registering, retrieving, and deleting user information.
+ */
 @Service
 public class UserService {
 
@@ -18,13 +22,25 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
+    /**
+     * Constructs a new UserService with the specified UserRepository, ModelMapper, and PasswordEncoder.
+     *
+     * @param userRepository the repository for managing usser data
+     * @param modelMapper the model mapper for converting entities to DTOs
+     * @param passwordEncoder the password encoder for encoding user passwords
+     */
     public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Registers a new user.
+     *
+     * @param userRegistrationDto the data transfer object containing user registration details
+     * @return the registered UserDto
+     */
     public UserDto registerUser(UserRegistrationDto userRegistrationDto) {
         logger.debug("Registering new user with data: {}", userRegistrationDto.getUsername());
         User user = modelMapper.map(userRegistrationDto, User.class);
@@ -34,6 +50,12 @@ public class UserService {
         return modelMapper.map(savedUser, UserDto.class);
     }
 
+    /**
+     * Retrieved a user by their username.
+     *
+     * @param username the username of the user to retrieve
+     * @return an Optional containing the UserDto if found
+     */
     public Optional<UserDto> getUserByUsername(String username) {
         logger.debug("Fetching user with username: {}", username);
         Optional<User> user = userRepository.findByUsername(username);
@@ -42,6 +64,12 @@ public class UserService {
         return userDto;
     }
 
+    /**
+     * Retrieved a user by their ID.
+     *
+     * @param id the ID of the user to retrieve
+     * @return the UserDto of the found user
+     */
     public UserDto getUserById(Long id) {
         logger.debug("Fetching user with id: {}", id);
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -50,6 +78,11 @@ public class UserService {
         return userDto;
     }
 
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id the ID of the user to delete
+     */
     public void deleteUser(Long id) {
         logger.debug("Deleting user with id: {}", id);
         userRepository.findById(id).ifPresent(userRepository::delete);

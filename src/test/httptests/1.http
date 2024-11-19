@@ -1,0 +1,261 @@
+### Registration
+POST http://localhost:8080/api/register
+Content-Type: application/json
+
+{
+  "username": "test1",
+  "password": "password_text"
+}
+
+###
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "username": "test1",
+  "password": "password_text"
+}
+
+> {%
+    client.global.set("jwtToken", response.body);
+%}
+
+### UserController Endpoints
+
+### Get User by ID
+GET http://localhost:8080/api/users/1
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get User By ID", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body, "Response body is empty");
+        client.log(response.body);
+    });
+%}
+
+### Delete User by ID
+#DELETE http://localhost:8080/api/users/1
+#Authorization: Bearer {{jwtToken}}
+#
+#> {%
+#    client.test("Delete User By ID", function() {
+#        client.assert(response.status === 204, "Response status is not 204 No Content");
+#    });
+#%}
+#
+###
+
+### WalletController Endpoints
+
+### Create Wallet
+POST http://localhost:8080/api/wallets
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "name": "Main Wallet",
+  "balance": 1000
+}
+
+> {%
+    client.test("Create Wallet", function() {
+        client.assert(response.status === 200 || response.status === 201, "Response status is not 200 OK or 201 Created");
+        client.assert(response.body.includes("Main Wallet"), "Wallet name is not 'Main Wallet'");
+        // Capture walletId from the response for subsequent tests
+        client.global.set("id", JSON.parse(response.body).id);
+    });
+%}
+
+### Get Wallet by ID
+GET http://localhost:8080/api/wallets/{{walletId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get Wallet By ID", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Main Wallet"), "Wallet name is not 'Main Wallet'");
+    });
+%}
+
+### Get All Wallets
+GET http://localhost:8080/api/wallets
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get All Wallets", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body, "Response body is empty");
+    });
+%}
+
+### Update Wallet
+PUT http://localhost:8080/api/wallets/{{walletId}}
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "name": "Updated Wallet",
+  "balance": 2000
+}
+
+> {%
+    client.test("Update Wallet", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Updated Wallet"), "Wallet name is not 'Updated Wallet'");
+    });
+%}
+
+### Delete Wallet by ID
+DELETE http://localhost:8080/api/wallets/{{walletId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Delete Wallet By ID", function() {
+        client.assert(response.status === 204, "Response status is not 204 No Content");
+    });
+%}
+
+###
+
+### TransactionController Endpoints
+
+### Create Transaction
+POST http://localhost:8080/api/transactions
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "walletId": {{walletId}},
+  "amount": 100,
+  "description": "Test Transaction"
+}
+
+> {%
+    client.test("Create Transaction", function() {
+        client.assert(response.status === 200 || response.status === 201, "Response status is not 200 OK or 201 Created");
+        client.assert(response.body.includes("Test Transaction"), "Transaction description is not 'Test Transaction'");
+        // Capture transactionId from the response for subsequent tests
+        client.global.set("transactionId", JSON.parse(response.body).id);
+    });
+%}
+
+### Get Transaction by ID
+GET http://localhost:8080/api/transactions/{{transactionId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get Transaction By ID", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Test Transaction"), "Transaction description is not 'Test Transaction'");
+    });
+%}
+
+### Get All Transactions
+GET http://localhost:8080/api/transactions
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get All Transactions", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body, "Response body is empty");
+    });
+%}
+
+### Update Transaction
+PUT http://localhost:8080/api/transactions/{{transactionId}}
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "walletId": {{walletId}},
+  "amount": 200,
+  "description": "Updated Transaction"
+}
+
+> {%
+    client.test("Update Transaction", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Updated Transaction"), "Transaction description is not 'Updated Transaction'");
+    });
+%}
+
+### Delete Transaction by ID
+DELETE http://localhost:8080/api/transactions/{{transactionId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Delete Transaction By ID", function() {
+        client.assert(response.status === 204, "Response status is not 204 No Content");
+    });
+%}
+
+###
+
+### CategoryController Endpoints
+
+### Create Category
+POST http://localhost:8080/api/categories
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "name": "Electronics"
+}
+
+> {%
+    client.test("Create Category", function() {
+        client.assert(response.status === 200 || response.status === 201, "Response status is not 200 OK or 201 Created");
+        client.assert(response.body.includes("Electronics"), "Category name is not 'Electronics'");
+        // Capture categoryId from the response for subsequent tests
+        client.global.set("categoryId", JSON.parse(response.body).id);
+    });
+%}
+
+### Get Category by ID
+GET http://localhost:8080/api/categories/{{categoryId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get Category By ID", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Electronics"), "Category name is not 'Electronics'");
+    });
+%}
+
+### Get All Categories
+GET http://localhost:8080/api/categories
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Get All Categories", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body, "Response body is empty");
+    });
+%}
+
+### Update Category
+PUT http://localhost:8080/api/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{jwtToken}}
+
+{
+  "name": "Updated Electronics"
+}
+
+> {%
+    client.test("Update Category", function() {
+        client.assert(response.status === 200, "Response status is not 200 OK");
+        client.assert(response.body.includes("Updated Electronics"), "Category name is not 'Updated Electronics'");
+    });
+%}
+
+### Delete Category by ID
+DELETE http://localhost:8080/api/categories/{{categoryId}}
+Authorization: Bearer {{jwtToken}}
+
+> {%
+    client.test("Delete Category By ID", function() {
+        client.assert(response.status === 204, "Response status is not 204 No Content");
+    });
+%}

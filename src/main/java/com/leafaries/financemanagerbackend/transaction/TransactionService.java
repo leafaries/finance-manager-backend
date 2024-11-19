@@ -12,6 +12,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for managing financial transactions.
+ * Provides business logic for creating, retrieving, updating, and deleting transactions.
+ */
 @Service
 public class TransactionService {
 
@@ -21,7 +25,13 @@ public class TransactionService {
     private final WalletRepository walletRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
+    /**
+     * Constructs a new {@code TransactionService} with the specified repositories and model mapper.
+     *
+     * @param transactionRepository the repository for managing transactions
+     * @param walletRepository the repository for managing wallets
+     * @param modelMapper the model mapper for converting entities and DTOs
+     */
     public TransactionService(TransactionRepository transactionRepository,
                               WalletRepository walletRepository,
                               ModelMapper modelMapper) {
@@ -30,6 +40,12 @@ public class TransactionService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Creates a new transaction.
+     *
+     * @param transactionCreateDto the data transfer object containing transaction details for creation
+     * @return the created transaction as a {@code TransactionDto}
+     */
     public TransactionDto createTransaction(TransactionCreateDto transactionCreateDto) {
         logger.debug("Creating transaction with data: {}", transactionCreateDto);
         Wallet wallet = getWalletById(transactionCreateDto.getWalletId());
@@ -42,18 +58,11 @@ public class TransactionService {
         return modelMapper.map(savedTransaction, TransactionDto.class);
     }
 
-    public TransactionDto getTransactionById(Long id) {
-        logger.debug("Fetching transaction with id: {}", id);
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-        if (transaction.isPresent()) {
-            logger.debug("Found transaction: {}", transaction.get());
-            return modelMapper.map(transaction.get(), TransactionDto.class);
-        } else {
-            logger.debug("Transaction not found for id: {}", id);
-            return null;
-        }
-    }
-
+    /**
+     * Retrieves all transactions.
+     *
+     * @return a list of all transactions as {@code TransactionDto}
+     */
     public List<TransactionDto> getAllTransactions() {
         logger.debug("Fetching all transactions");
         List<Transaction> transactions = transactionRepository.findAll();
@@ -69,6 +78,31 @@ public class TransactionService {
         return transactionDtos;
     }
 
+    /**
+     * Retrieves a transaction by its ID.
+     *
+     * @param id the ID of the transaction to retrieve
+     * @return the retrieved transaction as a {@code TransactionDto}
+     */
+    public TransactionDto getTransactionById(Long id) {
+        logger.debug("Fetching transaction with id: {}", id);
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        if (transaction.isPresent()) {
+            logger.debug("Found transaction: {}", transaction.get());
+            return modelMapper.map(transaction.get(), TransactionDto.class);
+        } else {
+            logger.debug("Transaction not found for id: {}", id);
+            return null;
+        }
+    }
+
+    /**
+     * Updates an existing transaction.
+     *
+     * @param id the ID of the transaction to update
+     * @param transactionCreateDto the data transfer object containing the new transaction details
+     * @return the updated transaction as a {@code TransactionDto}
+     */
     public TransactionDto updateTransaction(Long id, TransactionCreateDto transactionCreateDto) {
         logger.debug("Updating transaction with id: {} and data: {}", id, transactionCreateDto);
         Transaction transaction = transactionRepository.findById(id)
@@ -83,6 +117,12 @@ public class TransactionService {
         return modelMapper.map(updatedTransaction, TransactionDto.class);
     }
 
+    /**
+     * Deletes a transaction by its ID.
+     *
+     * @param id the ID of the transaction to delete
+     * @return {@code true} if the transaction was successfully deleted; {@code false} otherwise
+     */
     public boolean deleteTransaction(Long id) {
         logger.debug("Deleting transaction with id: {}", id);
         if (transactionRepository.existsById(id)) {
@@ -94,6 +134,12 @@ public class TransactionService {
         return false;
     }
 
+    /**
+     * Retrieves a wallet by its ID.
+     *
+     * @param walletId the ID of the wallet to retrieve
+     * @return the retrieved wallet
+     */
     private Wallet getWalletById(Long walletId) {
         logger.debug("Fetching wallet with id: {}", walletId);
         return walletRepository.findById(walletId)
