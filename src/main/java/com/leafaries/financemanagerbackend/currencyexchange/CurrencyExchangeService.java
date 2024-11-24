@@ -26,6 +26,7 @@ public class CurrencyExchangeService {
     // I know this is insecure code but idc in this particular project
     private static final String APP_ID = "638fd36f55174fb6a220042ccd5f0021";
     private static final String BASE_URL = "https://openexchangerates.org/api";
+    private static final String HISTORICAL_JSON_PATH = "/historical";
     private static final String LATEST_JSON_PATH = "/latest.json";
 
     private final WebClient webClient;
@@ -80,16 +81,40 @@ public class CurrencyExchangeService {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
-    // TODO: Implement
     /**
      * Fetches historical exchange rates for a specific date.
-     * <p>
-     * This method is not yet implemented.
-     * </p>
      *
      * @param date the date for which to retrieve historical exchange rates
      */
-    public void getHistoricalExchangeRates(LocalDate date) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+    public Mono<CurrencyExchangeResponseDto> getHistoricalExchangeRates(LocalDate date) {
+        logger.info("Fetching historical exchange rates from external API.");
+
+        return this.webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(HISTORICAL_JSON_PATH)
+                        .path(date.toString())
+                        .queryParam("app_id", APP_ID)
+                        .build())
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, clientResponse -> {
+                    logger.error("Error fetching historical exchange rates. Status code: {}", clientResponse.statusCode());
+                    return Mono.error(new RuntimeException("Failes to fetch historical exchange rates"));
+                })
+                .bodyToMono(CurrencyExchangeResponseDto.class)
+                .doOnSuccess(response -> {
+                    if (response != null) {
+                        logger.info("Successfully fetched historical exchange rates: {}", response);
+                    } else {
+                        logger.warn("Received null response from the historical exchange rate API.");
+                    }
+                })
+                .doOnError(throwable -> {
+                    if (throwable instanceof WebClientResponseException exception) {
+                        logger.error("Error response from external API: {}", exception.getResponseBodyAsString());
+                    } else {
+                        logger.error("An error occured while fetching exchange rates", throwable);
+                    }
+                })
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }

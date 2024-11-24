@@ -3,9 +3,12 @@ package com.leafaries.financemanagerbackend.currencyexchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
 
 /**
  * REST controller for handling currency exchange operations.
@@ -44,5 +47,13 @@ public class CurrencyExchangeController {
         return currencyExchangeService.getLatestExchangeRates()
                 .doOnSuccess(response -> logger.info("Returning fetched exchange rates to client: {}", response))
                 .doOnError(throwable -> logger.error("Failed to return exchange rates to client", throwable));
+    }
+
+    @GetMapping("historical")
+    public Mono<CurrencyExchangeResponseDto> getHistoricalExchangeRates(@PathVariable LocalDate date) {
+        logger.info("Received request to fetch historical exchange rates on date: {}", date);
+        return currencyExchangeService.getHistoricalExchangeRates(date)
+                .doOnSuccess(response -> logger.info("Returning fetched historical exchange rates to client: {}", response))
+                .doOnError(throwable -> logger.error("Failed to return historical exchange rates to client:", throwable));
     }
 }
