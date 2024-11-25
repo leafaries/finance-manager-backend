@@ -39,7 +39,7 @@ public class CurrencyExchangeController {
                 .doOnError(throwable -> log.error("Failed to return exchange rates to client", throwable));
     }
 
-    @GetMapping("/historical")
+    @GetMapping("/historical/{date}")
     public Mono<CurrencyExchangeResponseDto> getHistoricalExchangeRates(@PathVariable LocalDate date) {
         log.info("Received request to fetch historical exchange rates on date: {}", date);
         return currencyExchangeService.getHistoricalExchangeRates(date)
