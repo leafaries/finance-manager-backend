@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,21 +20,10 @@ import java.io.IOException;
  * This filter intercepts every request to validate the JWT token in the Authorization header.
  */
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
-
-   /**
-    * Constructs a new {@code JwtRequestFilter} with the specified user details service and JWT utility.
-    *
-    * @param userDetailsService the service for loading user details
-    * @param jwtUtil the utility for handling JWT operations
-    */
-    public JwtRequestFilter(UserDetailsService userDetailsService, JwtUtil jwtUtil) {
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-    }
 
     /**
      * Filters incoming requests to validate the JWT token.

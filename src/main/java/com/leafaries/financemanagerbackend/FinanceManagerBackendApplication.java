@@ -17,7 +17,6 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableCaching
 public class FinanceManagerBackendApplication {
-
     /**
      * Main method for starting the Finance Manager Backend application.
      * <p>

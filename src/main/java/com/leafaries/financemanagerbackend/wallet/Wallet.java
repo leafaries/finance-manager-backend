@@ -6,6 +6,7 @@ import com.leafaries.financemanagerbackend.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "wallets")
+@Data
+@NoArgsConstructor
+@ToString(exclude = "transactions")
+@EqualsAndHashCode(exclude = "transactions")
 public class Wallet {
-
     /**
      * The ID of the wallet.
      */
@@ -37,12 +41,6 @@ public class Wallet {
     private String name;
 
     /**
-     * The balance of the wallet.
-     */
-    @Column(nullable = false)
-    private double balance;
-
-    /**
      * The currency of the wallet.
      */
     @Enumerated(EnumType.STRING)
@@ -50,12 +48,18 @@ public class Wallet {
     private Currency currency;
 
     /**
+     * The balance of the wallet.
+     */
+    @Column(nullable = false)
+    private double balance;
+
+    /**
      * The list of transactions associated with the wallet.
      * Mapped by the "wallet" fields in the Transaction entity.
      * Cascade type ALL and orphan removal enabled.
      */
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
     /**
      * The user who owns the wallet.
@@ -64,13 +68,6 @@ public class Wallet {
     @ManyToOne
     @JoinTable(name = "user_id")
     private User user;
-
-    /**
-     * Default constructor.
-     */
-    public Wallet() {
-        // Default constructor for JPA
-    }
 
     /**
      * Constructs a new Wallet with the specified details.
@@ -85,98 +82,6 @@ public class Wallet {
         this.balance = balance;
         this.currency = currency;
         this.user = user;
-    }
-
-    // Getters and setters
-
-    /**
-     * Gets the ID of the wallet.
-     *
-     * @return the ID of the wallet
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the ID of the wallet.
-     *
-     * @param id the ID of the wallet
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the name of the wallet.
-     *
-     * @return the name of the wallet
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the name of the wallet.
-     *
-     * @param name the name of the wallet
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets the balance of the wallet.
-     *
-     * @return the balance of the wallet
-     */
-    public double getBalance() {
-        return balance;
-    }
-
-    /**
-     * Sets the balance of the wallet.
-     *
-     * @param balance the balance of the wallet
-     */
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    /**
-     * Gets the currency of the wallet.
-     *
-     * @return the currency of the wallet
-     */
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    /**
-     * Sets the currency of the wallet.
-     *
-     * @param currency the currency of the wallet
-     */
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    /**
-     * Gets the list of transactions associated with the wallet.
-     *
-     * @return the list of transactions
-     */
-    public List<Transaction> getTransactions() {
-        return transactions;
-    }
-
-    /**
-     * Sets the list of the transactions associated with the wallet.
-     *
-     * @param transactions the list of transactions
-     */
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
     }
 
     /**
@@ -197,23 +102,5 @@ public class Wallet {
     public void removeTransaction(Transaction transaction) {
         transactions.remove(transaction);
         transaction.setWallet(null);
-    }
-
-    /**
-     * Gets the user who owns the wallet.
-     *
-     * @return the user who owns the wallet
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * Sets the user who own the wallet.
-     *
-     * @param user the user who owns the wallet
-     */
-    public void setUser(User user) {
-        this.user = user;
     }
 }

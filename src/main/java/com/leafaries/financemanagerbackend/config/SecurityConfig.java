@@ -1,6 +1,7 @@
 package com.leafaries.financemanagerbackend.config;
 
 import com.leafaries.financemanagerbackend.security.JwtRequestFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,21 +24,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
-
     private final UserDetailsService userDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
-
-    /**
-     * Constructs a new {@code SecurityConfig} with the specified user details service and JWT request filter.
-     *
-     * @param userDetailsService the service for loading user details
-     * @param jwtRequestFilter the filter for processing JWT authentication tokens
-     */
-    public SecurityConfig(UserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter) {
-        this.userDetailsService = userDetailsService;
-        this.jwtRequestFilter = jwtRequestFilter;
-    }
 
     /**
      * Provides a password encoder bean to be used for encoding and verifying passwords.

@@ -1,7 +1,7 @@
 package com.leafaries.financemanagerbackend.currencyexchange;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,21 +17,11 @@ import java.time.LocalDate;
  * </p>
  */
 @RestController
-@RequestMapping("/api/currency-exchange")
+@RequestMapping("/currency-exchange")
+@AllArgsConstructor
+@Slf4j
 public class CurrencyExchangeController {
-
-    private static final Logger logger = LoggerFactory.getLogger(CurrencyExchangeController.class);
-
     private final CurrencyExchangeService currencyExchangeService;
-
-    /**
-     * Constructs a new {@code CurrencyExchangeController} with the specified currency exchange service.
-     *
-     * @param currencyExchangeService the service for managing currency exchange data
-     */
-    public CurrencyExchangeController(CurrencyExchangeService currencyExchangeService) {
-        this.currencyExchangeService = currencyExchangeService;
-    }
 
     /**
      * Retrieves the latest exchange rates.
@@ -41,19 +31,19 @@ public class CurrencyExchangeController {
      *
      * @return a {@link Mono} containing the latest {@link CurrencyExchangeResponseDto} with exchange rates data
      */
-    @GetMapping("latest-exchange-rates")
+    @GetMapping("/latest-exchange-rates")
     public Mono<CurrencyExchangeResponseDto> getLatestExchangeRates() {
-        logger.info("Received request to fetch exchange rates");
+        log.info("Received request to fetch exchange rates");
         return currencyExchangeService.getLatestExchangeRates()
-                .doOnSuccess(response -> logger.info("Returning fetched exchange rates to client: {}", response))
-                .doOnError(throwable -> logger.error("Failed to return exchange rates to client", throwable));
+                .doOnSuccess(response -> log.info("Returning fetched exchange rates to client: {}", response))
+                .doOnError(throwable -> log.error("Failed to return exchange rates to client", throwable));
     }
 
-    @GetMapping("historical")
+    @GetMapping("/historical")
     public Mono<CurrencyExchangeResponseDto> getHistoricalExchangeRates(@PathVariable LocalDate date) {
-        logger.info("Received request to fetch historical exchange rates on date: {}", date);
+        log.info("Received request to fetch historical exchange rates on date: {}", date);
         return currencyExchangeService.getHistoricalExchangeRates(date)
-                .doOnSuccess(response -> logger.info("Returning fetched historical exchange rates to client: {}", response))
-                .doOnError(throwable -> logger.error("Failed to return historical exchange rates to client:", throwable));
+                .doOnSuccess(response -> log.info("Returning fetched historical exchange rates to client: {}", response))
+                .doOnError(throwable -> log.error("Failed to return historical exchange rates to client:", throwable));
     }
 }

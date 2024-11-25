@@ -1,13 +1,17 @@
 package com.leafaries.financemanagerbackend.currencyexchange;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Enum representing various world currencies.
  * <p>
  * Each enum constant represents a specific currency along with its description.
  * </p>
  */
+@AllArgsConstructor
+@Getter
 public enum Currency {
-
     // Hardcoded in because they'll realistically never change, but otherwise
     // I'd probably just read these values from a file.
     AED("United Arab Emirates Dirham"),
@@ -182,24 +186,6 @@ public enum Currency {
     ZWL("Zimbabwean Dollar");
 
     private final String description;
-
-    /**
-     * Constructor for the Currency enum.
-     *
-     * @param description the description of the currency
-     */
-    Currency(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Gets the description of the currency.
-     *
-     * @return the description of the currency
-     */
-    public String getDescription() {
-        return description;
-    }
 
     @Override
     public String toString() {

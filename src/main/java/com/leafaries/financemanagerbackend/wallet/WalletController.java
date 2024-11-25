@@ -1,7 +1,7 @@
 package com.leafaries.financemanagerbackend.wallet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +13,11 @@ import java.util.List;
  * Provides endpoints to create, read, update, and delete wallet information.
  */
 @RestController
-@RequestMapping("/api/wallets")
+@RequestMapping("/wallets")
+@AllArgsConstructor
+@Slf4j
 public class WalletController {
-
-    private static final Logger logger = LoggerFactory.getLogger(WalletController.class);
-
     private final WalletService walletService;
-
-    /**
-     * Constructs a new WalletController with the specified WalletService
-     *
-     * @param walletService the service to manage wallet operations
-     */
-    public WalletController(WalletService walletService) {
-        this.walletService = walletService;
-    }
 
     /**
      * Creates a new wallet.
@@ -37,9 +27,9 @@ public class WalletController {
      */
     @PostMapping
     public ResponseEntity<WalletResponseDto> createWallet(@RequestBody WalletHttpRequestDto walletHttpRequestDto) {
-        logger.debug("Received request to create wallet with data: {}", walletHttpRequestDto);
+        log.debug("Received request to create wallet with data: {}", walletHttpRequestDto);
         WalletResponseDto createdWallet = walletService.createWallet(walletHttpRequestDto);
-        logger.debug("Created wallet: {}", createdWallet);
+        log.debug("Created wallet: {}", createdWallet);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWallet);
     }
 
@@ -51,9 +41,9 @@ public class WalletController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<WalletResponseDto> getWalletById(@PathVariable Long id) {
-        logger.debug("Received request to fetch wallet with id: {}", id);
+        log.debug("Received request to fetch wallet with id: {}", id);
         WalletResponseDto wallet = walletService.getWalletById(id);
-        logger.debug("Fetched wallet: {}", wallet);
+        log.debug("Fetched wallet: {}", wallet);
         return ResponseEntity.ok(wallet);
     }
 
@@ -64,9 +54,9 @@ public class WalletController {
      */
     @GetMapping
     public ResponseEntity<List<WalletResponseDto>> getAllWallets() {
-        logger.debug("Received request to fetch all wallets");
+        log.debug("Received request to fetch all wallets");
         List<WalletResponseDto> wallets = walletService.getAllWallets();
-        logger.debug("Fetched all wallets: {}", wallets);
+        log.debug("Fetched all wallets: {}", wallets);
         return ResponseEntity.ok(wallets);
     }
 
@@ -80,9 +70,9 @@ public class WalletController {
     @PutMapping("/{id}")
     public ResponseEntity<WalletResponseDto> updateWallet(@PathVariable Long id,
                                                           @RequestBody WalletHttpRequestDto walletHttpRequestDto) {
-        logger.debug("Received request to update wallet with id: {} and data: {}", id, walletHttpRequestDto);
+        log.debug("Received request to update wallet with id: {} and data: {}", id, walletHttpRequestDto);
         WalletResponseDto updatedWallet = walletService.updateWallet(id, walletHttpRequestDto);
-        logger.debug("Updated wallet: {}", updatedWallet);
+        log.debug("Updated wallet: {}", updatedWallet);
         return ResponseEntity.ok(updatedWallet);
     }
 
@@ -94,13 +84,13 @@ public class WalletController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWallet(@PathVariable Long id) {
-        logger.debug("Received request to delete wallet with id: {}", id);
+        log.debug("Received request to delete wallet with id: {}", id);
         boolean isDeleted = walletService.deleteWallet(id);
         if (isDeleted) {
-            logger.debug("Deleted wallet with id: {}", id);
+            log.debug("Deleted wallet with id: {}", id);
             return ResponseEntity.noContent().build();
         } else {
-            logger.warn("Failed to delete wallet with id: {}", id);
+            log.warn("Failed to delete wallet with id: {}", id);
             return ResponseEntity.notFound().build();
         }
     }

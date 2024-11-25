@@ -1,9 +1,9 @@
 package com.leafaries.financemanagerbackend.user;
 
 import com.leafaries.financemanagerbackend.exception.ResourceNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +14,12 @@ import java.util.Optional;
  * Provides methods for registering, retrieving, and deleting user information.
  */
 @Service
+@AllArgsConstructor
+@Slf4j
 public class UserService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-
-    /**
-     * Constructs a new UserService with the specified UserRepository, ModelMapper, and PasswordEncoder.
-     *
-     * @param userRepository the repository for managing usser data
-     * @param modelMapper the model mapper for converting entities to DTOs
-     * @param passwordEncoder the password encoder for encoding user passwords
-     */
-    public UserService(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      * Registers a new user.
@@ -42,11 +28,11 @@ public class UserService {
      * @return the registered UserDto
      */
     public UserDto registerUser(UserRegistrationDto userRegistrationDto) {
-        logger.debug("Registering new user with data: {}", userRegistrationDto.getUsername());
+        log.debug("Registering new user with data: {}", userRegistrationDto.getUsername());
         User user = modelMapper.map(userRegistrationDto, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt the password
         User savedUser = userRepository.save(user);
-        logger.debug("Saved user entity: {}", savedUser.getId());
+        log.debug("Saved user entity: {}", savedUser.getId());
         return modelMapper.map(savedUser, UserDto.class);
     }
 
@@ -57,9 +43,9 @@ public class UserService {
      * @return an Optional containing the UserDto if found
      */
     public Optional<UserDto> getUserByUsername(String username) {
-        logger.debug("Fetching user with username: {}", username);
+        log.debug("Fetching user with username: {}", username);
         Optional<User> user = userRepository.findByUsername(username);
-        logger.debug("Fetched user entity for username: {}", user.isPresent() ? user.get().getUsername() : "not found");
+        log.debug("Fetched user entity for username: {}", user.isPresent() ? user.get().getUsername() : "not found");
         Optional<UserDto> userDto = user.map(u -> modelMapper.map(u, UserDto.class));
         return userDto;
     }
@@ -71,9 +57,9 @@ public class UserService {
      * @return the UserDto of the found user
      */
     public UserDto getUserById(Long id) {
-        logger.debug("Fetching user with id: {}", id);
+        log.debug("Fetching user with id: {}", id);
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        logger.debug("Fetched user entity with id: {}", user.getId());
+        log.debug("Fetched user entity with id: {}", user.getId());
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }
@@ -84,8 +70,8 @@ public class UserService {
      * @param id the ID of the user to delete
      */
     public void deleteUser(Long id) {
-        logger.debug("Deleting user with id: {}", id);
+        log.debug("Deleting user with id: {}", id);
         userRepository.findById(id).ifPresent(userRepository::delete);
-        logger.debug("Deleted user with id: {}", id);
+        log.debug("Deleted user with id: {}", id);
     }
 }

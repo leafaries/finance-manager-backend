@@ -1,7 +1,6 @@
 package com.leafaries.financemanagerbackend.currencyexchange;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,10 +18,8 @@ import java.time.LocalDate;
  * </p>
  */
 @Service
+@Slf4j
 public class CurrencyExchangeService {
-
-    private static final Logger logger = LoggerFactory.getLogger(CurrencyExchangeService.class);
-
     // I know this is insecure code but idc in this particular project
     private static final String APP_ID = "638fd36f55174fb6a220042ccd5f0021";
     private static final String BASE_URL = "https://openexchangerates.org/api";
@@ -51,7 +48,7 @@ public class CurrencyExchangeService {
      * @return a {@link Mono} containing the latest {@link CurrencyExchangeResponseDto} with exchange rates data
      */
     public Mono<CurrencyExchangeResponseDto> getLatestExchangeRates() {
-        logger.info("Fetching exchange rates from external API.");
+        log.info("Fetching exchange rates from external API.");
 
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -60,22 +57,22 @@ public class CurrencyExchangeService {
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, clientResponse -> {
-                    logger.error("Error fetching exchange rates. Status code: {}", clientResponse.statusCode());
+                    log.error("Error fetching exchange rates. Status code: {}", clientResponse.statusCode());
                     return Mono.error(new RuntimeException("Failes to fetch exchange rates"));
                 })
                 .bodyToMono(CurrencyExchangeResponseDto.class)
                 .doOnSuccess(response -> {
                     if (response != null) {
-                        logger.info("Successfully fetched exchange rates: {}", response);
+                        log.info("Successfully fetched exchange rates: {}", response);
                     } else {
-                        logger.warn("Received null response from the exchange rate API.");
+                        log.warn("Received null response from the exchange rate API.");
                     }
                 })
                 .doOnError(throwable -> {
                     if (throwable instanceof WebClientResponseException exception) {
-                        logger.error("Error response from external API: {}", exception.getResponseBodyAsString());
+                        log.error("Error response from external API: {}", exception.getResponseBodyAsString());
                     } else {
-                        logger.error("An error occured while fetching exchange rates", throwable);
+                        log.error("An error occured while fetching exchange rates", throwable);
                     }
                 })
                 .subscribeOn(Schedulers.boundedElastic());
@@ -87,7 +84,7 @@ public class CurrencyExchangeService {
      * @param date the date for which to retrieve historical exchange rates
      */
     public Mono<CurrencyExchangeResponseDto> getHistoricalExchangeRates(LocalDate date) {
-        logger.info("Fetching historical exchange rates from external API.");
+        log.info("Fetching historical exchange rates from external API.");
 
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -97,22 +94,22 @@ public class CurrencyExchangeService {
                         .build())
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, clientResponse -> {
-                    logger.error("Error fetching historical exchange rates. Status code: {}", clientResponse.statusCode());
+                    log.error("Error fetching historical exchange rates. Status code: {}", clientResponse.statusCode());
                     return Mono.error(new RuntimeException("Failes to fetch historical exchange rates"));
                 })
                 .bodyToMono(CurrencyExchangeResponseDto.class)
                 .doOnSuccess(response -> {
                     if (response != null) {
-                        logger.info("Successfully fetched historical exchange rates: {}", response);
+                        log.info("Successfully fetched historical exchange rates: {}", response);
                     } else {
-                        logger.warn("Received null response from the historical exchange rate API.");
+                        log.warn("Received null response from the historical exchange rate API.");
                     }
                 })
                 .doOnError(throwable -> {
                     if (throwable instanceof WebClientResponseException exception) {
-                        logger.error("Error response from external API: {}", exception.getResponseBodyAsString());
+                        log.error("Error response from external API: {}", exception.getResponseBodyAsString());
                     } else {
-                        logger.error("An error occured while fetching exchange rates", throwable);
+                        log.error("An error occured while fetching exchange rates", throwable);
                     }
                 })
                 .subscribeOn(Schedulers.boundedElastic());

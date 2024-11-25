@@ -1,7 +1,7 @@
 package com.leafaries.financemanagerbackend.transaction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +13,11 @@ import java.util.List;
  * Provides endpoints for creating, retrieving, updating, and deleting transactions.
  */
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/transactions")
+@AllArgsConstructor
+@Slf4j
 public class TransactionController {
-
-    private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
-
     private final TransactionService transactionService;
-
-    /**
-     * Constructs a new {@code TransactionController} with the specified {@code TransactionService}.
-     *
-     * @param transactionService the service for managing transactions
-     */
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
 
     /**
      * Creates a new transaction.
@@ -37,9 +27,9 @@ public class TransactionController {
      */
     @PostMapping
     public ResponseEntity<TransactionDto> createTransaction(@RequestBody TransactionCreateDto transactionCreateDto) {
-        logger.debug("Received request to create transaction with data: {}", transactionCreateDto);
+        log.debug("Received request to create transaction with data: {}", transactionCreateDto);
         TransactionDto createdTransaction = transactionService.createTransaction(transactionCreateDto);
-        logger.debug("Created transaction: {}", transactionCreateDto);
+        log.debug("Created transaction: {}", transactionCreateDto);
         return new ResponseEntity<>(createdTransaction, HttpStatus.CREATED);
     }
 
@@ -50,9 +40,9 @@ public class TransactionController {
      */
     @GetMapping
     public ResponseEntity<List<TransactionDto>> getAllTransactions() {
-        logger.debug("Fetching all transactions via controller");
+        log.debug("Fetching all transactions via controller");
         List<TransactionDto> transactions = transactionService.getAllTransactions();
-        logger.debug("Fetched transactions: {}", transactions);
+        log.debug("Fetched transactions: {}", transactions);
         return ResponseEntity.ok(transactions);
     }
 
@@ -64,9 +54,9 @@ public class TransactionController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDto> getTransactionById(@PathVariable Long id) {
-        logger.debug("Received request to fetch transaction with id: {}", id);
+        log.debug("Received request to fetch transaction with id: {}", id);
         TransactionDto transactionDto = transactionService.getTransactionById(id);
-        logger.debug("Fetched transaction: {}", id);
+        log.debug("Fetched transaction: {}", id);
         return transactionDto != null ? ResponseEntity.ok(transactionDto) : ResponseEntity.notFound().build();
     }
 
@@ -80,9 +70,9 @@ public class TransactionController {
     @PutMapping("/{id}")
     public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id,
                                                             @RequestBody TransactionCreateDto transactionCreateDto) {
-        logger.debug("Received request to update transaction with id: {} and data: {}", id, transactionCreateDto);
+        log.debug("Received request to update transaction with id: {} and data: {}", id, transactionCreateDto);
         TransactionDto updatedTransaction = transactionService.updateTransaction(id, transactionCreateDto);
-        logger.debug("Updated transaction: {}", updatedTransaction);
+        log.debug("Updated transaction: {}", updatedTransaction);
         return ResponseEntity.ok(updatedTransaction);
     }
 
@@ -94,13 +84,13 @@ public class TransactionController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        logger.debug("Received request to delete transaction with id: {}", id);
+        log.debug("Received request to delete transaction with id: {}", id);
         boolean isDeleted = transactionService.deleteTransaction(id);
         if (isDeleted) {
-            logger.debug("Transaction deleted with id: {}", id);
+            log.debug("Transaction deleted with id: {}", id);
             return ResponseEntity.noContent().build();
         } else {
-            logger.debug("Transaction not found for id: {}", id);
+            log.debug("Transaction not found for id: {}", id);
             return ResponseEntity.notFound().build();
         }
     }

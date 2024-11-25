@@ -1,5 +1,6 @@
 package com.leafaries.financemanagerbackend.exception;
 
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -8,15 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * This exception results in a HTTP 404 Not Found status.
  */
 @ResponseStatus(HttpStatus.NOT_FOUND)
+@NoArgsConstructor
 public class ResourceNotFoundException extends RuntimeException {
-
-    /**
-     * Constructs a new ResourceNotFoundException with {@code null} as its detail message.
-     */
-    public ResourceNotFoundException() {
-        super();
-    }
-
     /**
      * Constructs a new ResourceNotFoundException with the specified detail message.
      *

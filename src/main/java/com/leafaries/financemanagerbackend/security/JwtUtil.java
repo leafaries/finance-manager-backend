@@ -18,7 +18,6 @@ import java.util.Map;
  */
 @Component
 public class JwtUtil {
-
     private final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 

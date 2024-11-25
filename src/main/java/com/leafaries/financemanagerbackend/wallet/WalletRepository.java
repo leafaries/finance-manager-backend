@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
-
     /**
      * Finds wallets by their currency.
      *

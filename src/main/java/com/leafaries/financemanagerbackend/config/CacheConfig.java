@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableCaching
 public class CacheConfig {
-
     /**
      * Creates and configures a {@link ConcurrentMapCacheManager} bean.
      * <p>

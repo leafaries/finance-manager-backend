@@ -11,7 +11,6 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
     /**
      * Finds a user by their username.
      *

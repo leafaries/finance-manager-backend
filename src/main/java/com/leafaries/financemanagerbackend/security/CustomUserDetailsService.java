@@ -1,6 +1,7 @@
 package com.leafaries.financemanagerbackend.security;
 
 import com.leafaries.financemanagerbackend.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,18 +12,9 @@ import org.springframework.stereotype.Service;
  * Implements the {@link UserDetailsService} interface provided by Spring Security.
  */
 @Service
+@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-
     private final UserRepository userRepository;
-
-    /**
-     * Constructs a new {@code CustomUserDetailsService} with the specified {@code UserRepository}.
-     *
-     * @param userRepository the repository for accessing user data
-     */
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     /**
      * Loads a user by their username.

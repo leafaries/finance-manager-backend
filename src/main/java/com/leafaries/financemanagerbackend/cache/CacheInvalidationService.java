@@ -1,7 +1,6 @@
 package com.leafaries.financemanagerbackend.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +11,8 @@ import org.springframework.stereotype.Service;
  * </p>
  */
 @Service
+@Slf4j
 public class CacheInvalidationService {
-
-    private static final Logger logger = LoggerFactory.getLogger(CacheInvalidationService.class);
-
     /**
      * Clears all entries in the "exchangeRates" cache.
      * <p>
@@ -25,6 +22,6 @@ public class CacheInvalidationService {
      */
     @CacheEvict(value = "exchangeRates", allEntries = true)
     public void clearcache() {
-        logger.info("Clearing all entries in the exchangeRates cache.");
+        log.info("Clearing all entries in the exchangeRates cache.");
     }
 }

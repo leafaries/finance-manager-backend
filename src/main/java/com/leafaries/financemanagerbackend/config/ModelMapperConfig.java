@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ModelMapperConfig {
-
     /**
      * Creates and configures a {@link ModelMapper} bean.
      * <p>

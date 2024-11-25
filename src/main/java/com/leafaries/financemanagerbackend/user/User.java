@@ -2,6 +2,8 @@ package com.leafaries.financemanagerbackend.user;
 
 import com.leafaries.financemanagerbackend.wallet.Wallet;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,8 +17,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User implements UserDetails {
-
     /**
      * The ID of the user.
      */
@@ -45,80 +48,6 @@ public class User implements UserDetails {
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wallet> wallets = new ArrayList<>();
-
-    // Getters and setters
-
-    /**
-     * Gets the ID of the user.
-     *
-     * @return the ID of the user
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the ID of the user.
-     *
-     * @param id the ID of the user
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the username of the user.
-     *
-     * @return the username of the user
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Sets the username of the user.
-     *
-     * @param username the username of the user
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * Gets the password of the user.
-     *
-     * @return the password of the user
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * sets the password of the user.
-     *
-     * @param password the password of the user
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Gets the list of wallets owned by the user.
-     *
-     * @return the list of wallets
-     */
-    public List<Wallet> getWallets() {
-        return wallets;
-    }
-
-    /**
-     * Sets the list of wallets owned by the user.
-     *
-     * @param wallets the list of wallets
-     */
-    public void setWallets(List<Wallet> wallets) {
-        this.wallets = wallets;
-    }
 
     /**
      * Gets the authorities granted to the user.

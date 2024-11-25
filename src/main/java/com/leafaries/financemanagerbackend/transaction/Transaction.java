@@ -2,6 +2,10 @@ package com.leafaries.financemanagerbackend.transaction;
 
 import com.leafaries.financemanagerbackend.wallet.Wallet;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,8 +16,11 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "transactions")
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Transaction {
-
     /**
      * The ID of the transaction.
      * Generated automatically.
@@ -59,11 +66,6 @@ public class Transaction {
     private Wallet wallet;
 
     /**
-     * Default constructor for JPA.
-     */
-    public Transaction() { }
-
-    /**
      * Constructs a new Transaction with the specified details.
      *
      * @param amount the amount of money involved in the transaction
@@ -78,132 +80,5 @@ public class Transaction {
         this.category = category;
         this.notes = notes;
         this.wallet = wallet;
-    }
-
-    // Getters and Setters
-
-    /**
-     * Gets the ID of the transaction.
-     *
-     * @return the ID of the transaction
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the ID of the transaction.
-     *
-     * @param id the ID of the transaction
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the amount of money involved in the transaction.
-     *
-     * @return the amount of money involved in the transaction
-     */
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    /**
-     * Sets the amount of money involved in the transaction.
-     *
-     * @param amount the amount of money involved in the transaction
-     */
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    /**
-     * Gets the date when the transaction occurred.
-     *
-     * @return the date when the transaction occurred
-     */
-    public LocalDate getDate() {
-        return date;
-    }
-
-    /**
-     * Sets the date when the transaction occurred.
-     *
-     * @param date the date when the transaction occurred
-     */
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    /**
-     * Gets the category of the transaction.
-     *
-     * @return the category of the transaction
-     */
-    public String getCategory() {
-        return category;
-    }
-
-    /**
-     * Sets the category of the transaction.
-     *
-     * @param category the category of the transaction
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * Gets the additional notes or description about the transaction.
-     *
-     * @return the additional notes or description about the transaction
-     */
-    public String getNotes() {
-        return notes;
-    }
-
-    /**
-     * Sets the additional notes or description about the transaction.
-     *
-     * @param notes the additional notes or description about the transaction
-     */
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    /**
-     * Gets the wallet associated with the transaction.
-     *
-     * @return the wallet associated with the transaction
-     */
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    /**
-     * Sets the wallet associated with the transaction.
-     *
-     * @param wallet the wallet associated with the transaction
-     */
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
-    }
-
-    /**
-     * Returns a string representation of the transaction for debugging and logging purposes.
-     *
-     * @return a string representation of the transaction
-     */
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", date=" + date +
-                ", category='" + category + '\'' +
-                ", notes='" + notes + '\'' +
-                ", wallet=" + (wallet != null ? wallet.getId() : null) +
-                '}';
     }
 }

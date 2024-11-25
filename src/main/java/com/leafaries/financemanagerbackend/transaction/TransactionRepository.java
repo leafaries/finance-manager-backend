@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-
     /**
      * Finds all transactions within a specific wallet by wallet ID.
      *
