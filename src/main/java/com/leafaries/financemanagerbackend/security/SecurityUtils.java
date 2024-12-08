@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
  * Utility class for security-related operations.
  * Provides methods for authorization and authentication checks.
  */
-@Component
 @AllArgsConstructor
+@Component
 public class SecurityUtils {
+
     private final UserRepository userRepository;
 
     /**
@@ -33,4 +34,5 @@ public class SecurityUtils {
         }
         throw new IllegalArgumentException("User not authenticated");
     }
+
 }

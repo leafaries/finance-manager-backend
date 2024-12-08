@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
     /**
      * Finds all transactions within a specific wallet by wallet ID.
      *
@@ -49,4 +50,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
      * @return a list of transactions within the specified wallet and amount range
      */
     List<Transaction> findByWalletIdAndAmountBetween(Long walletId, BigDecimal minAmount, BigDecimal maxAmount);
+
 }

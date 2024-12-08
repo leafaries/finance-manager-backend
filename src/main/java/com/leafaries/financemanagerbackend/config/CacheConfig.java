@@ -11,9 +11,10 @@ import org.springframework.context.annotation.Configuration;
  * This class enables Spring's annotation-driven cache management capability.
  * </p>
  */
-@Configuration
 @EnableCaching
+@Configuration
 public class CacheConfig {
+
     /**
      * Creates and configures a {@link ConcurrentMapCacheManager} bean.
      * <p>
@@ -26,4 +27,5 @@ public class CacheConfig {
     public ConcurrentMapCacheManager cacheManager() {
         return new ConcurrentMapCacheManager("getHistory");
     }
+
 }

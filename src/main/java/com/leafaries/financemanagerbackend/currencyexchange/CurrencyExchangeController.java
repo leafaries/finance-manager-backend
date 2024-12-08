@@ -16,11 +16,11 @@ import java.time.LocalDate;
  *     This controller provides an endpoint to retrieve the latest exchange rates.
  * </p>
  */
-@RestController
-@RequestMapping("/currency-exchange")
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@RestController("/currency-exchange")
 public class CurrencyExchangeController {
+
     private final CurrencyExchangeService currencyExchangeService;
 
     /**
@@ -46,4 +46,5 @@ public class CurrencyExchangeController {
                 .doOnSuccess(response -> log.info("Returning fetched historical exchange rates to client: {}", response))
                 .doOnError(throwable -> log.error("Failed to return historical exchange rates to client:", throwable));
     }
+
 }

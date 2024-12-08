@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class TransactionDto {
+
     /**
      * The ID of the transaction.
      */
@@ -44,4 +45,5 @@ public class TransactionDto {
      * Additional notes or description about the transaction.
      */
     private String notes;
+
 }

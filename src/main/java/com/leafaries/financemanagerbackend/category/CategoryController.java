@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/categories")
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@RestController("/categories")
 public class CategoryController {
+
     private final CategoryService categoryService;
 
     @PostMapping
@@ -66,4 +66,5 @@ public class CategoryController {
         log.debug("Deleted category with id: {}", id);
         return ResponseEntity.noContent().build();
     }
+
 }

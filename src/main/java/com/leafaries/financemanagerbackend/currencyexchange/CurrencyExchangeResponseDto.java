@@ -17,6 +17,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class CurrencyExchangeResponseDto {
+
     /**
      * Disclaimer associated with the exchange rates data.
      */
@@ -43,4 +44,5 @@ public class CurrencyExchangeResponseDto {
      * The keys are currency codes and the values are the exchange rates.
      */
     private Map<String, Double> rates;
+
 }

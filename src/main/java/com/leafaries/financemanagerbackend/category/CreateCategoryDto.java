@@ -12,8 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateCategoryDto {
+
     /**
      * The name of the category to be created.
      */
     private String name;
+
 }

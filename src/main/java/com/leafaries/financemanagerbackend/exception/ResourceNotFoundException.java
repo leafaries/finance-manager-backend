@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 @NoArgsConstructor
 public class ResourceNotFoundException extends RuntimeException {
+
     /**
      * Constructs a new ResourceNotFoundException with the specified detail message.
      *
@@ -29,4 +30,5 @@ public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

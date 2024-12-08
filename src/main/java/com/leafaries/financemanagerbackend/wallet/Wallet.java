@@ -17,13 +17,16 @@ import java.util.List;
  * Entity class representing a wallet.
  * Maps to a database table for wallet storage.
  */
-@Entity
-@Table(name = "wallets")
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = "transactions")
 @EqualsAndHashCode(exclude = "transactions")
+@Entity
+@Table(name = "wallets")
 public class Wallet {
+
     /**
      * The ID of the wallet.
      */
@@ -59,6 +62,7 @@ public class Wallet {
      * Cascade type ALL and orphan removal enabled.
      */
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private final List<Transaction> transactions = new ArrayList<>();
 
     /**
@@ -82,6 +86,7 @@ public class Wallet {
         this.balance = balance;
         this.currency = currency;
         this.user = user;
+        this.transactions = new ArrayList<>();
     }
 
     /**
@@ -103,4 +108,5 @@ public class Wallet {
         transactions.remove(transaction);
         transaction.setWallet(null);
     }
+
 }

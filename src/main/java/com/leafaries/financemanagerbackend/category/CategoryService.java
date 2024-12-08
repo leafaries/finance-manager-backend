@@ -1,5 +1,6 @@
 package com.leafaries.financemanagerbackend.category;
 
+import com.leafaries.financemanagerbackend.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -12,10 +13,11 @@ import java.util.Optional;
  * Service class for managing categories.
  * Provides methods for creating, retrieving, updating, and deleting categories.
  */
-@Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Service
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
 
@@ -73,13 +75,14 @@ public class CategoryService {
      */
     public Optional<CategoryDto> updateCategory(Long id, CreateCategoryDto createCategoryDto) {
         log.debug("Updating category with id: {} and data: {}", id, createCategoryDto);
-        return categoryRepository.findById(id).map(category -> {
-            modelMapper.map(createCategoryDto, category);
-            Category updatedCategory = categoryRepository.save(category);
-            log.debug("Updated category entity: {}", updatedCategory);
-            CategoryDto updatedCategoryDto = modelMapper.map(updatedCategory, CategoryDto.class);
-            return updatedCategoryDto;
-        });
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        Category mappedCategory = modelMapper.map(createCategoryDto, Category.class);
+        category.setName(mappedCategory.getName());
+        Category updatedCategory = categoryRepository.save(category);
+        CategoryDto updatedCategoryDto = modelMapper.map(updatedCategory, CategoryDto.class);
+        log.debug("Updated category entity: {}", updatedCategory);
+        return Optional.ofNullable(updatedCategoryDto);
     }
 
     /**
@@ -92,4 +95,5 @@ public class CategoryService {
         categoryRepository.findById(id).ifPresent(categoryRepository::delete);
         log.debug("Deleting category with id: {}", id);
     }
+
 }

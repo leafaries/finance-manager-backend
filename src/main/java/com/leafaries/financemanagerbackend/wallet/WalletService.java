@@ -15,10 +15,11 @@ import java.util.List;
  * Service class for managing wallet operations.
  * Provides methods to create, retrieve, update, and delete wallets.
  */
-@Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Service
 public class WalletService {
+
     private final WalletRepository walletRepository;
     private final ModelMapper modelMapper;
     private final SecurityUtils securityUtils;
@@ -40,6 +41,19 @@ public class WalletService {
     }
 
     /**
+     * Retrieves all wallets belonging to the currently authenticated user.
+     *
+     * @return a list of all wallets
+     */
+    public List<WalletResponseDto> getAllWalletsForCurrentUser() {
+        log.debug("Fetching all wallets");
+        User currentUser = securityUtils.getCurrentUser();
+        List<Wallet> wallets = walletRepository.findAllByUserId(currentUser.getId());
+        log.debug("Fetched all wallets entities: {}", wallets);
+        return wallets.stream().map(wallet -> modelMapper.map(wallet, WalletResponseDto.class)).toList();
+    }
+
+    /**
      * Retrieves a wallet by its ID.
      *
      * @param id the ID of the wallet to retrieve
@@ -48,24 +62,11 @@ public class WalletService {
     public WalletResponseDto getWalletById(Long id) {
         log.debug("Fetching wallet with id: {}", id);
         Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
-        if (!wallet.getUser().equals(securityUtils.getCurrentUser())) {
+        if (!wallet.getUser().equals(securityUtils.getCurrentUser())) {  // TODO: Replace the use of equals with comparing the id fields
             throw new AccessDeniedException("Access denied");
         }
         log.debug("Fetched wallet entity: {}", wallet);
         return modelMapper.map(wallet, WalletResponseDto.class);
-    }
-
-    /**
-     * Retrieves all wallets.
-     *
-     * @return a list of all wallets
-     */
-    public List<WalletResponseDto> getAllWallets() {
-        log.debug("Fetching all wallets");
-        User currentuser = securityUtils.getCurrentUser();
-        List<Wallet> wallets = walletRepository.findAllByUserId(currentuser.getId());
-        log.debug("Fetched all wallets entities: {}", wallets);
-        return wallets.stream().map(wallet -> modelMapper.map(wallet, WalletResponseDto.class)).toList();
     }
 
     /**
@@ -76,8 +77,8 @@ public class WalletService {
      * @return the updated wallet
      */
     public WalletResponseDto updateWallet(Long id, WalletHttpRequestDto walletHttpRequestDto) {
-        log.debug("Updating wallet with id: {} and data: {}", id, walletHttpRequestDto);
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Access denied"));
+        log.debug("Attempting to update wallet with id: {} and data: {}", id, walletHttpRequestDto);
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
         if (!wallet.getUser().equals(securityUtils.getCurrentUser())) {
             throw new AccessDeniedException("Access denied");
         }
@@ -95,17 +96,14 @@ public class WalletService {
      */
     public boolean deleteWallet(Long id) {
         log.debug("Deleting wallet with id: {}", id);
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
+        Wallet wallet = walletRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
         if (!wallet.getUser().equals(securityUtils.getCurrentUser())) {
             throw new AccessDeniedException("Access denied");
         }
-        if (walletRepository.existsById(id)) {
-            walletRepository.delete(wallet);
-            log.debug("Deleted wallet with id: {}", id);
-            return true;
-        } else {
-            log.warn("Wallet with id: {} not found for deletion", id);
-            return false;
-        }
+        walletRepository.deleteById(id);
+        log.debug("Deleted wallet with id: {}", id);
+        return true;
     }
+
 }

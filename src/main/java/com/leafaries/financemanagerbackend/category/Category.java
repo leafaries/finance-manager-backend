@@ -12,11 +12,12 @@ import java.util.List;
  * Entity class representing a category of financial transactions.
  * Each category has a unique name and can be associated with multiple transactions.
  */
-@Entity
-@Table(name = "categories")
 @Getter
 @Setter
+@Entity
+@Table(name = "categories")
 public class Category {
+
     /**
      * The unique identifier for the category.
      */
@@ -37,4 +38,5 @@ public class Category {
      */
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
+
 }

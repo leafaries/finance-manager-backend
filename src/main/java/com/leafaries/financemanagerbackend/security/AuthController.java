@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
  * REST controller for handling authentication-related operations.
  * Provides endpoints for user registration and login.
  */
-@RestController("/auth")
 @AllArgsConstructor
+@RestController("/auth")
 public class AuthController {
+
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
@@ -74,4 +75,5 @@ public class AuthController {
 
         return ResponseEntity.ok(token);
     }
+
 }

@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
  * This class provides methods to clear specific caches used within the application.
  * </p>
  */
-@Service
 @Slf4j
+@Service
 public class CacheInvalidationService {
+
     /**
      * Clears all entries in the "exchangeRates" cache.
      * <p>
@@ -24,4 +25,5 @@ public class CacheInvalidationService {
     public void clearcache() {
         log.info("Clearing all entries in the exchangeRates cache.");
     }
+
 }

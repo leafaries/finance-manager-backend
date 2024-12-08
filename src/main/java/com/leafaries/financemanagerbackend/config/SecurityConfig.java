@@ -22,10 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * It includes configuration for the user details service, password encoder,
  * JWT request filter, and security filter chain.
  */
-@Configuration
-@EnableWebSecurity
 @AllArgsConstructor
+@EnableWebSecurity
+@Configuration
 public class SecurityConfig {
+
     private final UserDetailsService userDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -82,4 +83,5 @@ public class SecurityConfig {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
+
 }

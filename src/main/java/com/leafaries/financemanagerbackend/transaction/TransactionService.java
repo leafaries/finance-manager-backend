@@ -15,10 +15,11 @@ import java.util.Optional;
  * Service class for managing financial transactions.
  * Provides business logic for creating, retrieving, updating, and deleting transactions.
  */
-@Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Service
 public class TransactionService {
+
     private final TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
     private final ModelMapper modelMapper;
@@ -68,13 +69,13 @@ public class TransactionService {
      * @return the retrieved transaction as a {@code TransactionDto}
      */
     public TransactionDto getTransactionById(Long id) {
-        log.debug("Fetching transaction with id: {}", id);
+        log.debug("Fetching transaction with ID: {}", id);
         Optional<Transaction> transaction = transactionRepository.findById(id);
         if (transaction.isPresent()) {
             log.debug("Found transaction: {}", transaction.get());
             return modelMapper.map(transaction.get(), TransactionDto.class);
         } else {
-            log.debug("Transaction not found for id: {}", id);
+            log.debug("Transaction not found for ID: {}", id);
             return null;
         }
     }
@@ -87,7 +88,7 @@ public class TransactionService {
      * @return the updated transaction as a {@code TransactionDto}
      */
     public TransactionDto updateTransaction(Long id, TransactionCreateDto transactionCreateDto) {
-        log.debug("Updating transaction with id: {} and data: {}", id, transactionCreateDto);
+        log.debug("Updating transaction with ID: {} and data: {}", id, transactionCreateDto);
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
         Wallet wallet = getWalletById(transactionCreateDto.getWalletId());
@@ -113,7 +114,7 @@ public class TransactionService {
             log.debug("Transaction deleted successfully");
             return true;
         }
-        log.debug("Transaction not found for id: {}", id);
+        log.debug("Transaction not found for ID: {}", id);
         return false;
     }
 
@@ -124,8 +125,9 @@ public class TransactionService {
      * @return the retrieved wallet
      */
     private Wallet getWalletById(Long walletId) {
-        log.debug("Fetching wallet with id: {}", walletId);
+        log.debug("Fetching wallet with ID: {}", walletId);
         return walletRepository.findById(walletId)
                 .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
     }
+
 }

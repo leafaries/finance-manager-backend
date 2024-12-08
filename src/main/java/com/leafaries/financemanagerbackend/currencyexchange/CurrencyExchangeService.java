@@ -17,9 +17,10 @@ import java.time.LocalDate;
  *     and (in the future) historical exchange rates.
  * </p>
  */
-@Service
 @Slf4j
+@Service
 public class CurrencyExchangeService {
+
     // I know this is insecure code but idc in this particular project
     private static final String APP_ID = "638fd36f55174fb6a220042ccd5f0021";
     private static final String BASE_URL = "https://openexchangerates.org/api";
@@ -114,4 +115,5 @@ public class CurrencyExchangeService {
                 })
                 .subscribeOn(Schedulers.boundedElastic());
     }
+
 }

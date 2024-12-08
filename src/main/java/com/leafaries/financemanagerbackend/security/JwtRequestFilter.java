@@ -19,9 +19,10 @@ import java.io.IOException;
  * Filter class for processing JWT authentication tokens.
  * This filter intercepts every request to validate the JWT token in the Authorization header.
  */
-@Component
 @AllArgsConstructor
+@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
+
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
 
@@ -64,4 +65,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         chain.doFilter(request, response);
     }
+
 }

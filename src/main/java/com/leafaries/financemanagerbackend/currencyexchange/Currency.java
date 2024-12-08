@@ -12,6 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Currency {
+
     // Hardcoded in because they'll realistically never change, but otherwise
     // I'd probably just read these values from a file.
     AED("United Arab Emirates Dirham"),
@@ -191,4 +192,5 @@ public enum Currency {
     public String toString() {
         return name();
     }
+
 }

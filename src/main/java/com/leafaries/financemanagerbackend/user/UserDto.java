@@ -1,5 +1,7 @@
 package com.leafaries.financemanagerbackend.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,9 +9,12 @@ import lombok.Setter;
  * Data Transfer Object (DTO) for User information.
  * This class is used to transfer user data between different layers of the applications.
  */
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class UserDto {
+
     /**
      * The ID of the user.
      */
@@ -24,4 +29,5 @@ public class UserDto {
      * The password of the user.
      */
     private String password;
+
 }

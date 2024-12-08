@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserLoginDto {
+
     /**
      * The username of the user attempting to log in.
      */
@@ -19,4 +20,5 @@ public class UserLoginDto {
      * The password of the user attempting to log in.
      */
     private String password;
+
 }

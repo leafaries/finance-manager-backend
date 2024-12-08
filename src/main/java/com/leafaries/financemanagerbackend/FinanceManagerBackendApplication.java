@@ -14,9 +14,10 @@ import org.springframework.cache.annotation.EnableCaching;
  * The application is configured using Spring Boot, and caching is enabled using the {@code @EnableCaching} annotation.
  * </p>
  */
-@SpringBootApplication
 @EnableCaching
+@SpringBootApplication
 public class FinanceManagerBackendApplication {
+
     /**
      * Main method for starting the Finance Manager Backend application.
      * <p>
@@ -29,4 +30,5 @@ public class FinanceManagerBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(FinanceManagerBackendApplication.class, args);
     }
+
 }

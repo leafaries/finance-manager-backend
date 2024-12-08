@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryDto {
+
     /**
      * The unique identifier of the category.
      */
@@ -22,4 +23,5 @@ public class CategoryDto {
      * The name of the category.
      */
     private String name;
+
 }

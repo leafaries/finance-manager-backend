@@ -1,9 +1,6 @@
 package com.leafaries.financemanagerbackend.wallet;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -13,9 +10,11 @@ import java.math.BigDecimal;
  */
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Setter
 @Getter
 public class WalletResponseDto {
+
     /**
      * The ID of the wallet.
      */
@@ -35,4 +34,5 @@ public class WalletResponseDto {
      * The currency of the wallet.
      */
     private String currency;
+
 }

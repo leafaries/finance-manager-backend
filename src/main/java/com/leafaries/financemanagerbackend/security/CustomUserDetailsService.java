@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
  * Service class for loading user-specific data.
  * Implements the {@link UserDetailsService} interface provided by Spring Security.
  */
-@Service
 @AllArgsConstructor
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
+
     private final UserRepository userRepository;
 
     /**
@@ -29,4 +30,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
+
 }

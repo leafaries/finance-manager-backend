@@ -12,11 +12,11 @@ import java.util.List;
  * Controller for managing wallet operations.
  * Provides endpoints to create, read, update, and delete wallet information.
  */
-@RestController
-@RequestMapping("/wallets")
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@RestController("/wallets")
 public class WalletController {
+
     private final WalletService walletService;
 
     /**
@@ -55,7 +55,7 @@ public class WalletController {
     @GetMapping
     public ResponseEntity<List<WalletResponseDto>> getAllWallets() {
         log.debug("Received request to fetch all wallets");
-        List<WalletResponseDto> wallets = walletService.getAllWallets();
+        List<WalletResponseDto> wallets = walletService.getAllWalletsForCurrentUser();
         log.debug("Fetched all wallets: {}", wallets);
         return ResponseEntity.ok(wallets);
     }
@@ -94,4 +94,5 @@ public class WalletController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

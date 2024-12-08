@@ -14,6 +14,7 @@ import java.util.Optional;
  */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
     /**
      * Finds a category by its name.
      *
@@ -21,4 +22,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      * @return an {@link Optional} containing the found category, or {@link Optional#empty()} if no category found
      */
     Optional<Category> findByName(String name);
+
 }

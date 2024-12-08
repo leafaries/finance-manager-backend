@@ -3,6 +3,7 @@ package com.leafaries.financemanagerbackend.wallet;
 import com.leafaries.financemanagerbackend.currencyexchange.Currency;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,10 +12,12 @@ import lombok.Setter;
  * Data Transfer Object (DTO) for wallet HTTP requests.
  * Contains the necessary fields for wallet creation and updates.
  */
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 public class WalletHttpRequestDto {
+
     /**
      * The default currency for wallet operations.
      */
@@ -61,4 +64,5 @@ public class WalletHttpRequestDto {
         this.balance = balance;
         this.currency = (currency == null) ? DEFAULT_CURRENCY : currency;
     }
+
 }

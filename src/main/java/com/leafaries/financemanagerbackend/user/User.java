@@ -2,8 +2,7 @@ package com.leafaries.financemanagerbackend.user;
 
 import com.leafaries.financemanagerbackend.wallet.Wallet;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,11 +14,15 @@ import java.util.List;
  * Entity class representing a user.
  * Implements UserDetails for Spring Security integration.
  */
-@Entity
-@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
+
     /**
      * The ID of the user.
      */
@@ -47,6 +50,7 @@ public class User implements UserDetails {
      * Cascade type ALL and orpahn removal enabled.
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Wallet> wallets = new ArrayList<>();
 
     /**
@@ -98,4 +102,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
 }

@@ -2,10 +2,7 @@ package com.leafaries.financemanagerbackend.transaction;
 
 import com.leafaries.financemanagerbackend.wallet.Wallet;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,13 +11,14 @@ import java.time.LocalDate;
  * Entity class representing a financial transaction.
  * Maps to database table for transaction storage.
  */
-@Entity
-@Table(name = "transactions")
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@Entity
+@Table(name = "transactions")
 public class Transaction {
+
     /**
      * The ID of the transaction.
      * Generated automatically.
@@ -81,4 +79,5 @@ public class Transaction {
         this.notes = notes;
         this.wallet = wallet;
     }
+
 }

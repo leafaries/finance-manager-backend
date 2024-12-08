@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
  * REST controller for managing users.
  * Provides endpoints for retrieving and deleting user information.
  */
-@RestController
-@RequestMapping("/users")
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@RestController("/users")
 public class UserController {
+
     private final UserService userService;
 
     /**
@@ -43,4 +43,5 @@ public class UserController {
         log.debug("User deleted with id: {}", id);
         return ResponseEntity.noContent().build();
     }
+
 }

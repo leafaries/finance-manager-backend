@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class TransactionCreateDto  {
+
     /**
      * The amount of money involved in the transaction.
      */
@@ -39,4 +40,5 @@ public class TransactionCreateDto  {
      * Additional notes or description about the transaction.
      */
     private String notes;
+
 }

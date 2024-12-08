@@ -13,10 +13,11 @@ import java.util.Optional;
  * Service class for managing users.
  * Provides methods for registering, retrieving, and deleting user information.
  */
-@Service
-@AllArgsConstructor
 @Slf4j
+@AllArgsConstructor
+@Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -74,4 +75,5 @@ public class UserService {
         userRepository.findById(id).ifPresent(userRepository::delete);
         log.debug("Deleted user with id: {}", id);
     }
+
 }
