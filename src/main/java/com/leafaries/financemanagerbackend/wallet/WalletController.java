@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Slf4j
 @AllArgsConstructor
-@RestController("/wallets")
+@RestController
+@RequestMapping("/wallets")
 public class WalletController {
 
     private final WalletService walletService;

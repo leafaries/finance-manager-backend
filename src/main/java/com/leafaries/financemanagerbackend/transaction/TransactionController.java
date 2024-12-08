@@ -14,7 +14,8 @@ import java.util.List;
  */
 @Slf4j
 @AllArgsConstructor
-@RestController("/transactions")
+@RestController
+@RequestMapping("/transactions")
 public class TransactionController {
 
     private final TransactionService transactionService;

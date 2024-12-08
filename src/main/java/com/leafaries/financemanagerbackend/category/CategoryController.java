@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
-@RestController("/categories")
+@RestController
+@RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;

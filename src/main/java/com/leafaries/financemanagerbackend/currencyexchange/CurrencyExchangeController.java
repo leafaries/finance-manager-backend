@@ -18,7 +18,8 @@ import java.time.LocalDate;
  */
 @Slf4j
 @AllArgsConstructor
-@RestController("/currency-exchange")
+@RestController
+@RequestMapping("/currency-exchange")
 public class CurrencyExchangeController {
 
     private final CurrencyExchangeService currencyExchangeService;
